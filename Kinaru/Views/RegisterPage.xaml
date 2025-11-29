@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:Kinaru.ViewModels"
+             x:Class="Kinaru.Views.RegisterPage"
+             x:DataType="vm:RegisterViewModel"
+             Title="Register"
+             BackgroundColor="White">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="24,60,24,24" Spacing="0">
+            
+            <!-- Title -->
+            <HorizontalStackLayout HorizontalOptions="Start" Margin="0,0,0,8">
+                <Label Text="Bienvenue à " 
+                       FontSize="28" 
+                       FontAttributes="Bold"
+                       TextColor="#FF6B35" />
+                <Label Text="vous" 
+                       FontSize="28" 
+                       FontAttributes="Bold"
+                       TextColor="#1E3A5F" />
+            </HorizontalStackLayout>
+
+            <!-- Subtitle -->
+            <Label Text="Créer votre votre compte et trouvez votre maison."
+                   FontSize="14"
+                   TextColor="#6B7280"
+                   Margin="0,0,0,32" />
+
+            <!-- Step Indicator -->
+            <Border StrokeThickness="0"
+                    BackgroundColor="#E5E7EB"
+                    Padding="16,8"
+                    HorizontalOptions="Start"
+                    Margin="0,0,0,24">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="16" />
+                </Border.StrokeShape>
+                <Label Text="Step 1/2"
+                       FontSize="14"
+                       FontAttributes="Bold"
+                       TextColor="#1F2937" />
+            </Border>
+
+            <!-- Section Title -->
+            <Label Text="Informations personnelles"
+                   FontSize="20"
+                   FontAttributes="Bold"
+                   TextColor="#1E3A5F"
+                   Margin="0,0,0,24" />
+
+            <!-- Nom Input -->
+            <Border StrokeThickness="0"
+                    BackgroundColor="#F3F4F6"
+                    Padding="16,12"
+                    Margin="0,0,0,16"
+                    HeightRequest="56">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="28" />
+                </Border.StrokeShape>
+                <Entry Placeholder="Nom"
+                           Text="{Binding Nom}"
+                           BackgroundColor="Transparent"
+                           TextColor="#1F2937"
+                           PlaceholderColor="#9CA3AF"
+                           VerticalOptions="Center" />
+            </Border>
+
+            <!-- Prénom Input -->
+            <Border StrokeThickness="0"
+                    BackgroundColor="#F3F4F6"
+                    Padding="16,12"
+                    Margin="0,0,0,16"
+                    HeightRequest="56">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="28" />
+                </Border.StrokeShape>
+                <Entry Placeholder="Prénom"
+                           Text="{Binding Prenom}"
+                           BackgroundColor="Transparent"
+                           TextColor="#1F2937"
+                           PlaceholderColor="#9CA3AF"
+                           VerticalOptions="Center" />
+            </Border>
+
+            <!-- Lieu d'habitation Input -->
+            <Border StrokeThickness="0"
+                    BackgroundColor="#F3F4F6"
+                    Padding="16,12"
+                    Margin="0,0,0,16"
+                    HeightRequest="56">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="28" />
+                </Border.StrokeShape>
+                <Entry Placeholder="Lieu d'habitation"
+                           Text="{Binding LieuHabitation}"
+                           BackgroundColor="Transparent"
+                           TextColor="#1F2937"
+                           PlaceholderColor="#9CA3AF"
+                           VerticalOptions="Center" />
+            </Border>
+
+            <!-- Téléphone Input -->
+            <Border StrokeThickness="0"
+                    BackgroundColor="#F3F4F6"
+                    Padding="16,12"
+                    Margin="0,0,0,32"
+                    HeightRequest="56">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="28" />
+                </Border.StrokeShape>
+                <Entry Placeholder="Numéro de téléphone"
+                       Text="{Binding Telephone}"
+                       Keyboard="Telephone"
+                       BackgroundColor="Transparent"
+                       TextColor="#1F2937"
+                       PlaceholderColor="#9CA3AF"
+                       VerticalOptions="Center" />
+            </Border>
+
+            <!-- Navigation Buttons -->
+            <Grid ColumnDefinitions="*,*" ColumnSpacing="16" Margin="0,0,0,32">
+                <Button Text="Précédent"
+                        BackgroundColor="#D1D5DB"
+                        TextColor="#6B7280"
+                        FontSize="16"
+                        FontAttributes="Bold"
+                        HeightRequest="56"
+                        CornerRadius="28"
+                        Grid.Column="0" />
+                <Button Text="Suivant"
+                        Command="{Binding NextStepCommand}"
+                        BackgroundColor="#D1D5DB"
+                        TextColor="#6B7280"
+                        FontSize="16"
+                        FontAttributes="Bold"
+                        HeightRequest="56"
+                        CornerRadius="28"
+                        Grid.Column="1" />
+            </Grid>
+
+            <!-- Activity Indicator -->
+            <ActivityIndicator IsRunning="{Binding IsBusy}" 
+                               IsVisible="{Binding IsBusy}"
+                               Color="#FF6B35"
+                               HorizontalOptions="Center"
+                               Margin="0,0,0,16" />
+
+            <!-- Error Message -->
+            <Label Text="{Binding ErrorMessage}" 
+                   TextColor="Red"
+                   FontSize="14"
+                   HorizontalOptions="Center"
+                   Margin="0,0,0,24" />
+
+            <!-- Login Link -->
+            <HorizontalStackLayout HorizontalOptions="Center" Spacing="4">
+                <Label Text="Vous avez déjà un compte?"
+                       TextColor="#6B7280"
+                       FontSize="14" />
+                <Label Text="Connectez-vous"
+                       TextColor="#FF6B35"
+                       FontSize="14"
+                       FontAttributes="Bold">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding GoToLoginCommand}" />
+                    </Label.GestureRecognizers>
+                </Label>
+            </HorizontalStackLayout>
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

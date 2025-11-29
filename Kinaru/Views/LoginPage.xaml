@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:Kinaru.ViewModels"
+             x:Class="Kinaru.Views.LoginPage"
+             x:DataType="vm:LoginViewModel"
+             Title="Login"
+             BackgroundColor="White">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="24,60,24,24" Spacing="0">
+            
+            <!-- Title -->
+            <HorizontalStackLayout HorizontalOptions="Start" Margin="0,0,0,8">
+                <Label Text="Bienvenue à " 
+                       FontSize="28" 
+                       FontAttributes="Bold"
+                       TextColor="#FF6B35" />
+                <Label Text="nouveau" 
+                       FontSize="28" 
+                       FontAttributes="Bold"
+                       TextColor="#1E3A5F" />
+            </HorizontalStackLayout>
+
+            <!-- Subtitle -->
+            <Label Text="Connectez-vous et trouvez votre maison."
+                   FontSize="14"
+                   TextColor="#6B7280"
+                   Margin="0,0,0,40" />
+
+            <!-- Email Input -->
+            <Border StrokeThickness="0"
+                    BackgroundColor="#F3F4F6"
+                    Padding="16,12"
+                    Margin="0,0,0,16"
+                    HeightRequest="56">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="28" />
+                </Border.StrokeShape>
+                <Entry Placeholder="Adresse email"
+                       Text="{Binding Email}"
+                       Keyboard="Email"
+                       BackgroundColor="Transparent"
+                       TextColor="#1F2937"
+                       PlaceholderColor="#9CA3AF"
+                       VerticalOptions="Center" />
+            </Border>
+
+            <!-- Password Input -->
+            <Border StrokeThickness="0"
+                    BackgroundColor="#F3F4F6"
+                    Padding="16,12"
+                    Margin="0,0,0,16"
+                    HeightRequest="56">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="28" />
+                </Border.StrokeShape>
+                <Entry Placeholder="Mot de passe"
+                       Text="{Binding Password}"
+                       IsPassword="True"
+                       BackgroundColor="Transparent"
+                       TextColor="#1F2937"
+                       PlaceholderColor="#9CA3AF"
+                       VerticalOptions="Center" />
+            </Border>
+
+            <!-- Remember Me & Forgot Password -->
+            <Grid ColumnDefinitions="*,Auto" Margin="0,0,0,32">
+                <HorizontalStackLayout Grid.Column="0" Spacing="8">
+                    <CheckBox Color="#FF6B35" />
+                    <Label Text="Se souvenir de moi"
+                           TextColor="#6B7280"
+                           FontSize="14"
+                           VerticalOptions="Center" />
+                </HorizontalStackLayout>
+                <Label Text="Forgot password?"
+                       TextColor="#FF6B35"
+                       FontSize="14"
+                       VerticalOptions="Center"
+                       Grid.Column="1" />
+            </Grid>
+
+            <!-- Login Button -->
+            <Button Text="Se connecter"
+                    Command="{Binding LoginCommand}"
+                    IsEnabled="{Binding IsBusy, Converter={StaticResource InvertedBoolConverter}}"
+                    BackgroundColor="#1E3A5F"
+                    TextColor="White"
+                    FontSize="16"
+                    FontAttributes="Bold"
+                    HeightRequest="56"
+                    CornerRadius="28"
+                    Margin="0,0,0,24" />
+
+            <!-- Activity Indicator -->
+            <ActivityIndicator IsRunning="{Binding IsBusy}" 
+                               IsVisible="{Binding IsBusy}"
+                               Color="#FF6B35"
+                               HorizontalOptions="Center"
+                               Margin="0,0,0,16" />
+
+            <!-- Error Message -->
+            <Label Text="{Binding ErrorMessage}" 
+                   TextColor="Red"
+                   FontSize="14"
+                   HorizontalOptions="Center"
+                   Margin="0,0,0,24"
+                   IsVisible="{Binding ErrorMessage, Converter={StaticResource StringNotEmptyConverter}}" />
+
+            <!-- Sign Up Link -->
+            <HorizontalStackLayout HorizontalOptions="Center" Spacing="4">
+                <Label Text="Vous n'avez pas de compte?"
+                       TextColor="#6B7280"
+                       FontSize="14" />
+                <Label Text="Créer un compte"
+                       TextColor="#FF6B35"
+                       FontSize="14"
+                       FontAttributes="Bold">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding GoToRegisterCommand}" />
+                    </Label.GestureRecognizers>
+                </Label>
+            </HorizontalStackLayout>
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:Kinaru.ViewModels"
+             x:Class="Kinaru.Views.PropertyDetailsPage"
+             x:DataType="vm:PropertyDetailsViewModel"
+             Title="Détails"
+             BackgroundColor="White">
+
+    <ScrollView>
+        <VerticalStackLayout Spacing="0">
+
+            <!-- Image Carousel -->
+            <CarouselView ItemsSource="{Binding Property.Images}"
+                          HeightRequest="300"
+                          IndicatorView="indicatorView"
+                          CurrentItem="{Binding CurrentImageIndex}">
+                <CarouselView.ItemTemplate>
+                    <DataTemplate>
+                        <Image Source="{Binding Url}"
+                               Aspect="AspectFill" />
+                    </DataTemplate>
+                </CarouselView.ItemTemplate>
+            </CarouselView>
+
+            <IndicatorView x:Name="indicatorView"
+                           IndicatorColor="#D1D5DB"
+                           SelectedIndicatorColor="#FF6B35"
+                           HorizontalOptions="Center"
+                           Margin="0,-30,0,20" />
+
+            <!-- Action Buttons Overlay -->
+            <Grid Margin="16,-280,16,0" ColumnDefinitions="*,Auto,Auto" HeightRequest="40">
+                <Button Text="← Retour"
+                        BackgroundColor="#80000000"
+                        TextColor="White"
+                        FontSize="14"
+                        CornerRadius="20"
+                        Padding="16,8"
+                        HorizontalOptions="Start"
+                        Clicked="OnBackClicked"
+                        Grid.Column="0" />
+                <ImageButton Source="share.png"
+                             WidthRequest="40"
+                             HeightRequest="40"
+                             BackgroundColor="#80000000"
+                             CornerRadius="20"
+                             Padding="8"
+                             Command="{Binding ShareCommand}"
+                             Grid.Column="1"
+                             Margin="0,0,8,0" />
+                <ImageButton Source="heart.png"
+                             WidthRequest="40"
+                             HeightRequest="40"
+                             BackgroundColor="#80000000"
+                             CornerRadius="20"
+                             Padding="8"
+                             Command="{Binding ToggleFavoriteCommand}"
+                             Grid.Column="2" />
+            </Grid>
+
+            <!-- Property Details -->
+            <VerticalStackLayout Padding="16" Spacing="16" Margin="0,240,0,0">
+
+                <!-- Price and Title -->
+                <VerticalStackLayout Spacing="8">
+                    <Label Text="{Binding Property.Prix, StringFormat='{0:N0} FCFA'}"
+                           FontSize="28"
+                           FontAttributes="Bold"
+                           TextColor="#FF6B35" />
+                    <Label Text="{Binding Property.Titre}"
+                           FontSize="20"
+                           FontAttributes="Bold"
+                           TextColor="#1E3A5F" />
+                    <HorizontalStackLayout Spacing="4">
+                        <Image Source="map_pin.png" WidthRequest="16" HeightRequest="16" />
+                        <Label Text="{Binding Property.Adresse}"
+                               FontSize="14"
+                               TextColor="#6B7280" />
+                    </HorizontalStackLayout>
+                </VerticalStackLayout>
+
+                <!-- Property Features -->
+                <Border StrokeThickness="1"
+                        Stroke="#E5E7EB"
+                        BackgroundColor="#F9FAFB"
+                        Padding="16">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="12" />
+                    </Border.StrokeShape>
+                    <Grid ColumnDefinitions="*,*,*" RowDefinitions="Auto,Auto" RowSpacing="12">
+                        <VerticalStackLayout Grid.Row="0" Grid.Column="0" Spacing="4">
+                            <Image Source="bed.png" WidthRequest="24" HeightRequest="24" HorizontalOptions="Center" />
+                            <Label Text="{Binding Property.NombreChambres}"
+                                   FontSize="16"
+                                   FontAttributes="Bold"
+                                   TextColor="#1F2937"
+                                   HorizontalOptions="Center" />
+                            <Label Text="Chambres"
+                                   FontSize="12"
+                                   TextColor="#6B7280"
+                                   HorizontalOptions="Center" />
+                        </VerticalStackLayout>
+                        <VerticalStackLayout Grid.Row="0" Grid.Column="1" Spacing="4">
+                            <Image Source="bath.png" WidthRequest="24" HeightRequest="24" HorizontalOptions="Center" />
+                            <Label Text="{Binding Property.NombreSallesBain}"
+                                   FontSize="16"
+                                   FontAttributes="Bold"
+                                   TextColor="#1F2937"
+                                   HorizontalOptions="Center" />
+                            <Label Text="Salles de bain"
+                                   FontSize="12"
+                                   TextColor="#6B7280"
+                                   HorizontalOptions="Center" />
+                        </VerticalStackLayout>
+                        <VerticalStackLayout Grid.Row="0" Grid.Column="2" Spacing="4">
+                            <Image Source="area.png" WidthRequest="24" HeightRequest="24" HorizontalOptions="Center" />
+                            <Label Text="{Binding Property.Superficie, StringFormat='{0:N0}'}"
+                                   FontSize="16"
+                                   FontAttributes="Bold"
+                                   TextColor="#1F2937"
+                                   HorizontalOptions="Center" />
+                            <Label Text="m²"
+                                   FontSize="12"
+                                   TextColor="#6B7280"
+                                   HorizontalOptions="Center" />
+                        </VerticalStackLayout>
+                    </Grid>
+                </Border>
+
+                <!-- Description -->
+                <VerticalStackLayout Spacing="8">
+                    <Label Text="Description"
+                           FontSize="18"
+                           FontAttributes="Bold"
+                           TextColor="#1E3A5F" />
+                    <Label Text="{Binding Property.Description}"
+                           FontSize="14"
+                           TextColor="#4B5563"
+                           LineBreakMode="WordWrap" />
+                </VerticalStackLayout>
+
+                <!-- Agent Information -->
+                <VerticalStackLayout Spacing="8">
+                    <Label Text="Agent immobilier"
+                           FontSize="18"
+                           FontAttributes="Bold"
+                           TextColor="#1E3A5F" />
+                    <Border StrokeThickness="1"
+                            Stroke="#E5E7EB"
+                            BackgroundColor="White"
+                            Padding="12">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="12" />
+                        </Border.StrokeShape>
+                        <Grid ColumnDefinitions="60,*,Auto">
+                            <Border StrokeThickness="0"
+                                    BackgroundColor="#E5E7EB"
+                                    WidthRequest="60"
+                                    HeightRequest="60"
+                                    Grid.Column="0">
+                                <Border.StrokeShape>
+                                    <RoundRectangle CornerRadius="30" />
+                                </Border.StrokeShape>
+                                <Image Source="{Binding Property.ProprietaireNom}"
+                                       Aspect="AspectFill" />
+                            </Border>
+                            <VerticalStackLayout Grid.Column="1" Spacing="4" Padding="12,0,0,0" VerticalOptions="Center">
+                                <Label Text="{Binding Property.ProprietaireNom}"
+                                       FontSize="16"
+                                       FontAttributes="Bold"
+                                       TextColor="#1F2937" />
+                                <Label Text="{Binding Property.ProprietaireTelephone}"
+                                       FontSize="14"
+                                       TextColor="#6B7280" />
+                            </VerticalStackLayout>
+                            <Button Text="Message"
+                                    BackgroundColor="#FF6B35"
+                                    TextColor="White"
+                                    FontSize="14"
+                                    CornerRadius="20"
+                                    Padding="16,8"
+                                    Command="{Binding NavigateToMessagingCommand}"
+                                    VerticalOptions="Center"
+                                    Grid.Column="2" />
+                        </Grid>
+                    </Border>
+                </VerticalStackLayout>
+
+                <!-- Loading Indicator -->
+                <ActivityIndicator IsRunning="{Binding IsBusy}"
+                                   IsVisible="{Binding IsBusy}"
+                                   Color="#FF6B35"
+                                   HorizontalOptions="Center"
+                                   Margin="0,20,0,0" />
+
+                <!-- Error Message -->
+                <Label Text="{Binding ErrorMessage}"
+                       TextColor="Red"
+                       FontSize="14"
+                       HorizontalOptions="Center"
+                       IsVisible="{Binding ErrorMessage, Converter={StaticResource StringNotEmptyConverter}}"
+                       Margin="0,20,0,0" />
+
+            </VerticalStackLayout>
+
+            <!-- Reserve Button (Fixed at bottom) -->
+            <Grid Padding="16" BackgroundColor="White">
+                <Border.Shadow>
+                    <Shadow Brush="#E5E7EB" Offset="0,-2" Radius="8" Opacity="0.3" />
+                </Border.Shadow>
+                <Button Text="Réserver une visite"
+                        BackgroundColor="#1E3A5F"
+                        TextColor="White"
+                        FontSize="16"
+                        FontAttributes="Bold"
+                        HeightRequest="56"
+                        CornerRadius="28"
+                        Command="{Binding NavigateToReservationCommand}" />
+            </Grid>
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

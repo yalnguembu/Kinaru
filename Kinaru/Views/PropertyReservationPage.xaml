@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:Kinaru.ViewModels"
+             x:Class="Kinaru.Views.PropertyReservationPage"
+             x:DataType="vm:PropertyReservationViewModel"
+             Title="Réserver une visite"
+             BackgroundColor="White">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="16" Spacing="24">
+
+            <!-- Property Summary Card -->
+            <Border StrokeThickness="1"
+                    Stroke="#E5E7EB"
+                    BackgroundColor="#F9FAFB"
+                    Padding="16">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="12" />
+                </Border.StrokeShape>
+                <VerticalStackLayout Spacing="8">
+                    <Label Text="{Binding PropertyTitle}"
+                           FontSize="18"
+                           FontAttributes="Bold"
+                           TextColor="#1E3A5F" />
+                    <Label Text="{Binding PropertyPrice, StringFormat='{0:N0} FCFA'}"
+                           FontSize="16"
+                           FontAttributes="Bold"
+                           TextColor="#FF6B35" />
+                </VerticalStackLayout>
+            </Border>
+
+            <!-- Date Selection -->
+            <VerticalStackLayout Spacing="8">
+                <Label Text="Date de la visite"
+                       FontSize="16"
+                       FontAttributes="Bold"
+                       TextColor="#1E3A5F" />
+                <Border StrokeThickness="1"
+                        Stroke="#E5E7EB"
+                        BackgroundColor="White"
+                        Padding="12">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="12" />
+                    </Border.StrokeShape>
+                    <Grid ColumnDefinitions="Auto,*">
+                        <Image Source="calendar.png"
+                               WidthRequest="24"
+                               HeightRequest="24"
+                               VerticalOptions="Center"
+                               Grid.Column="0" />
+                        <DatePicker Date="{Binding SelectedDate}"
+                                    MinimumDate="{x:Static System:DateTime.Today}"
+                                    TextColor="#1F2937"
+                                    BackgroundColor="Transparent"
+                                    Grid.Column="1"
+                                    Margin="12,0,0,0" />
+                    </Grid>
+                </Border>
+            </VerticalStackLayout>
+
+            <!-- Time Selection -->
+            <VerticalStackLayout Spacing="8">
+                <Label Text="Heure de la visite"
+                       FontSize="16"
+                       FontAttributes="Bold"
+                       TextColor="#1E3A5F" />
+                
+                <Grid ColumnDefinitions="*,*" ColumnSpacing="12">
+                    <!-- Start Time -->
+                    <VerticalStackLayout Grid.Column="0" Spacing="4">
+                        <Label Text="Début"
+                               FontSize="14"
+                               TextColor="#6B7280" />
+                        <Border StrokeThickness="1"
+                                Stroke="#E5E7EB"
+                                BackgroundColor="White"
+                                Padding="12">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="12" />
+                            </Border.StrokeShape>
+                            <Grid ColumnDefinitions="Auto,*">
+                                <Image Source="clock.png"
+                                       WidthRequest="20"
+                                       HeightRequest="20"
+                                       VerticalOptions="Center"
+                                       Grid.Column="0" />
+                                <TimePicker Time="{Binding SelectedStartTime}"
+                                            TextColor="#1F2937"
+                                            BackgroundColor="Transparent"
+                                            Grid.Column="1"
+                                            Margin="8,0,0,0" />
+                            </Grid>
+                        </Border>
+                    </VerticalStackLayout>
+
+                    <!-- End Time -->
+                    <VerticalStackLayout Grid.Column="1" Spacing="4">
+                        <Label Text="Fin"
+                               FontSize="14"
+                               TextColor="#6B7280" />
+                        <Border StrokeThickness="1"
+                                Stroke="#E5E7EB"
+                                BackgroundColor="White"
+                                Padding="12">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="12" />
+                            </Border.StrokeShape>
+                            <Grid ColumnDefinitions="Auto,*">
+                                <Image Source="clock.png"
+                                       WidthRequest="20"
+                                       HeightRequest="20"
+                                       VerticalOptions="Center"
+                                       Grid.Column="0" />
+                                <TimePicker Time="{Binding SelectedEndTime}"
+                                            TextColor="#1F2937"
+                                            BackgroundColor="Transparent"
+                                            Grid.Column="1"
+                                            Margin="8,0,0,0" />
+                            </Grid>
+                        </Border>
+                    </VerticalStackLayout>
+                </Grid>
+            </VerticalStackLayout>
+
+            <!-- Message to Owner -->
+            <VerticalStackLayout Spacing="8">
+                <Label Text="Message au propriétaire (optionnel)"
+                       FontSize="16"
+                       FontAttributes="Bold"
+                       TextColor="#1E3A5F" />
+                <Border StrokeThickness="1"
+                        Stroke="#E5E7EB"
+                        BackgroundColor="White"
+                        Padding="12">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="12" />
+                    </Border.StrokeShape>
+                    <Editor Text="{Binding Message}"
+                            Placeholder="Ajoutez un message pour le propriétaire..."
+                            PlaceholderColor="#9CA3AF"
+                            TextColor="#1F2937"
+                            BackgroundColor="Transparent"
+                            HeightRequest="120"
+                            AutoSize="TextChanges" />
+                </Border>
+            </VerticalStackLayout>
+
+            <!-- Loading Indicator -->
+            <ActivityIndicator IsRunning="{Binding IsBusy}"
+                               IsVisible="{Binding IsBusy}"
+                               Color="#FF6B35"
+                               HorizontalOptions="Center" />
+
+            <!-- Error Message -->
+            <Label Text="{Binding ErrorMessage}"
+                   TextColor="Red"
+                   FontSize="14"
+                   HorizontalOptions="Center"
+                   IsVisible="{Binding ErrorMessage, Converter={StaticResource StringNotEmptyConverter}}" />
+
+            <!-- Submit Button -->
+            <Button Text="Envoyer la demande"
+                    BackgroundColor="#1E3A5F"
+                    TextColor="White"
+                    FontSize="16"
+                    FontAttributes="Bold"
+                    HeightRequest="56"
+                    CornerRadius="28"
+                    Command="{Binding SubmitReservationCommand}"
+                    IsEnabled="{Binding IsBusy, Converter={StaticResource InvertedBoolConverter}}"
+                    Margin="0,8,0,0" />
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>
