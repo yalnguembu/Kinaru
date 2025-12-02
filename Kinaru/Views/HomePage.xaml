@@ -5,13 +5,8 @@
              x:Class="Kinaru.Views.HomePage"
              x:DataType="vm:HomeViewModel"
              Title="Kinaru"
-             BackgroundColor="White">
-
-    <ContentPage.Behaviors>
-        <DataTriggerBehavior Binding="{Binding Source={x:Reference page}, Path=IsLoaded}" Value="True">
-            <InvokeCommandAction Command="{Binding LoadDataCommand}" />
-        </DataTriggerBehavior>
-    </ContentPage.Behaviors>
+             BackgroundColor="White"
+             Loaded="OnPageLoaded">
 
     <Grid RowDefinitions="Auto,*" x:Name="page">
         
@@ -32,7 +27,7 @@
                 <Border.StrokeShape>
                     <RoundRectangle CornerRadius="24" />
                 </Border.StrokeShape>
-                <Grid ColumnDefinitions="*,Auto">
+                <Grid ColumnDefinitions="*,Auto,Auto" ColumnSpacing="8">
                     <Entry Placeholder="Rechercher une propriété..."
                            Text="{Binding SearchText}"
                            BackgroundColor="Transparent"
@@ -48,6 +43,13 @@
                                  Command="{Binding SearchCommand}"
                                  VerticalOptions="Center"
                                  Grid.Column="1" />
+                    <ImageButton Source="filter.png"
+                                 WidthRequest="24"
+                                 HeightRequest="24"
+                                 BackgroundColor="Transparent"
+                                 Command="{Binding NavigateToFiltersCommand}"
+                                 VerticalOptions="Center"
+                                 Grid.Column="2" />
                 </Grid>
             </Border>
 

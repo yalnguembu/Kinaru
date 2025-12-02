@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:Kinaru.ViewModels"
+             x:Class="Kinaru.Views.AgentCalendarPage"
+             x:DataType="vm:AgentCalendarViewModel"
+             Title="Disponibilités"
+             BackgroundColor="#F3F4F6"
+             Loaded="OnPageLoaded">
+
+    <ScrollView>
+        <VerticalStackLayout Spacing="16" Padding="16">
+
+            <ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}" Color="#1E3A5F" />
+
+            <!-- Date Picker -->
+            <Border StrokeThickness="0" BackgroundColor="White" Padding="16">
+                <Border.StrokeShape><RoundRectangle CornerRadius="16"/></Border.StrokeShape>
+                <VerticalStackLayout Spacing="8">
+                    <Label Text="Sélectionner une date" FontAttributes="Bold" TextColor="#1E3A5F" />
+                    <DatePicker Date="{Binding SelectedDate}" Format="D" TextColor="#1E3A5F" />
+                </VerticalStackLayout>
+            </Border>
+
+            <!-- Add Availability Form -->
+            <Border StrokeThickness="0" BackgroundColor="White" Padding="16">
+                <Border.StrokeShape><RoundRectangle CornerRadius="16"/></Border.StrokeShape>
+                <VerticalStackLayout Spacing="12">
+                    <Label Text="Ajouter un créneau" FontAttributes="Bold" TextColor="#1E3A5F" />
+                    
+                    <Grid ColumnDefinitions="*,Auto,*" ColumnSpacing="8" VerticalOptions="Center">
+                        <TimePicker Time="{Binding NewStartTime}" Grid.Column="0" />
+                        <Label Text="à" VerticalOptions="Center" HorizontalOptions="Center" Grid.Column="1" />
+                        <TimePicker Time="{Binding NewEndTime}" Grid.Column="2" />
+                    </Grid>
+
+                    <Button Text="Ajouter" 
+                            Command="{Binding AddAvailabilityCommand}"
+                            BackgroundColor="#1E3A5F" 
+                            TextColor="White" 
+                            CornerRadius="8" />
+                </VerticalStackLayout>
+            </Border>
+
+            <!-- List of Availabilities -->
+            <Label Text="Créneaux existants" FontAttributes="Bold" FontSize="16" TextColor="#1E3A5F" Margin="0,8,0,0" />
+
+            <CollectionView ItemsSource="{Binding Availabilities}" EmptyView="Aucun créneau pour cette date">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Border StrokeThickness="0" BackgroundColor="White" Padding="12" Margin="0,0,0,8">
+                            <Border.StrokeShape><RoundRectangle CornerRadius="12"/></Border.StrokeShape>
+                            <Grid ColumnDefinitions="*,Auto">
+                                <HorizontalStackLayout Spacing="8" VerticalOptions="Center">
+                                    <Image Source="clock.png" WidthRequest="20" HeightRequest="20" VerticalOptions="Center" />
+                                    <Label Text="{Binding HeureDebut, StringFormat='{0:hh\\:mm}'}" FontAttributes="Bold" VerticalOptions="Center" />
+                                    <Label Text="-" VerticalOptions="Center" />
+                                    <Label Text="{Binding HeureFin, StringFormat='{0:hh\\:mm}'}" FontAttributes="Bold" VerticalOptions="Center" />
+                                </HorizontalStackLayout>
+
+                                <Button Grid.Column="1" 
+                                        Text="Supprimer" 
+                                        TextColor="#DC2626" 
+                                        BackgroundColor="#FEE2E2" 
+                                        CornerRadius="8"
+                                        Padding="12,4"
+                                        HeightRequest="36"
+                                        FontSize="12"
+                                        Command="{Binding Source={RelativeSource AncestorType={x:Type vm:AgentCalendarViewModel}}, Path=DeleteAvailabilityCommand}"
+                                        CommandParameter="{Binding Id}" />
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

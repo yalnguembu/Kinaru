@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:Kinaru.ViewModels"
+             x:Class="Kinaru.Views.AddPropertyPage"
+             x:DataType="vm:AddPropertyViewModel"
+             Title="{Binding IsEditing, Converter={StaticResource BoolToObjectConverter}, ConverterParameter='Modifier Propriété|Ajouter Propriété'}"
+             BackgroundColor="White">
+
+    <ScrollView>
+        <VerticalStackLayout Spacing="16" Padding="16">
+
+            <!-- Title -->
+            <VerticalStackLayout Spacing="8">
+                <Label Text="Titre" FontAttributes="Bold" />
+                <Entry Text="{Binding Titre}" Placeholder="Ex: Appartement moderne au centre-ville" />
+            </VerticalStackLayout>
+
+            <!-- Description -->
+            <VerticalStackLayout Spacing="8">
+                <Label Text="Description" FontAttributes="Bold" />
+                <Editor Text="{Binding Description}" HeightRequest="100" Placeholder="Description détaillée..." />
+            </VerticalStackLayout>
+
+            <!-- Price & Type -->
+            <Grid ColumnDefinitions="*,*" ColumnSpacing="16">
+                <VerticalStackLayout Spacing="8" Grid.Column="0">
+                    <Label Text="Prix (FCFA)" FontAttributes="Bold" />
+                    <Entry Text="{Binding Prix}" Keyboard="Numeric" />
+                </VerticalStackLayout>
+                <VerticalStackLayout Spacing="8" Grid.Column="1">
+                    <Label Text="Type" FontAttributes="Bold" />
+                    <Picker ItemsSource="{Binding PropertyTypes}"
+                            SelectedItem="{Binding SelectedType, Converter={StaticResource EnumToStringConverter}}" />
+                </VerticalStackLayout>
+            </Grid>
+
+            <!-- Location -->
+            <VerticalStackLayout Spacing="8">
+                <Label Text="Adresse" FontAttributes="Bold" />
+                <Entry Text="{Binding Adresse}" Placeholder="Adresse complète" />
+            </VerticalStackLayout>
+
+            <Grid ColumnDefinitions="*,*" ColumnSpacing="16">
+                <VerticalStackLayout Spacing="8" Grid.Column="0">
+                    <Label Text="Ville" FontAttributes="Bold" />
+                    <Entry Text="{Binding Ville}" />
+                </VerticalStackLayout>
+                <VerticalStackLayout Spacing="8" Grid.Column="1">
+                    <Label Text="Quartier" FontAttributes="Bold" />
+                    <Entry Text="{Binding Quartier}" />
+                </VerticalStackLayout>
+            </Grid>
+
+            <!-- Details -->
+            <Grid ColumnDefinitions="*,*" ColumnSpacing="16">
+                <VerticalStackLayout Spacing="8" Grid.Column="0">
+                    <Label Text="Superficie (m²)" FontAttributes="Bold" />
+                    <Entry Text="{Binding Superficie}" Keyboard="Numeric" />
+                </VerticalStackLayout>
+                <VerticalStackLayout Spacing="8" Grid.Column="1">
+                    <Label Text="Pièces" FontAttributes="Bold" />
+                    <Entry Text="{Binding NombrePieces}" Keyboard="Numeric" />
+                </VerticalStackLayout>
+            </Grid>
+
+            <Grid ColumnDefinitions="*,*" ColumnSpacing="16">
+                <VerticalStackLayout Spacing="8" Grid.Column="0">
+                    <Label Text="Chambres" FontAttributes="Bold" />
+                    <Entry Text="{Binding NombreChambres}" Keyboard="Numeric" />
+                </VerticalStackLayout>
+                <VerticalStackLayout Spacing="8" Grid.Column="1">
+                    <Label Text="Salles de bain" FontAttributes="Bold" />
+                    <Entry Text="{Binding NombreSallesBain}" Keyboard="Numeric" />
+                </VerticalStackLayout>
+            </Grid>
+
+            <!-- Images Section -->
+            <VerticalStackLayout Spacing="12">
+                <Label Text="Images" FontAttributes="Bold" FontSize="16" />
+                
+                <!-- Image Picker Buttons -->
+                <Grid ColumnDefinitions="*,*" ColumnSpacing="12">
+                    <Button Text="📷 Prendre photo" 
+                            Grid.Column="0"
+                            Command="{Binding TakePhotoCommand}"
+                            BackgroundColor="#1E3A5F"
+                            TextColor="White"
+                            HeightRequest="44"
+                            CornerRadius="8" />
+                    <Button Text="🖼️ Galerie" 
+                            Grid.Column="1"
+                            Command="{Binding PickImageCommand}"
+                            BackgroundColor="#1E3A5F"
+                            TextColor="White"
+                            HeightRequest="44"
+                            CornerRadius="8" />
+                </Grid>
+
+                <!-- Selected Images Preview -->
+                <CollectionView ItemsSource="{Binding SelectedImages}" HeightRequest="120">
+                    <CollectionView.ItemsLayout>
+                        <LinearItemsLayout Orientation="Horizontal" ItemSpacing="8" />
+                    </CollectionView.ItemsLayout>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Grid WidthRequest="100" HeightRequest="100">
+                                <Border StrokeThickness="2" Stroke="#E5E7EB" BackgroundColor="White">
+                                    <Border.StrokeShape><RoundRectangle CornerRadius="8"/></Border.StrokeShape>
+                                    <Image Source="{Binding .}" Aspect="AspectFill" />
+                                </Border>
+                                <ImageButton Source="close.png"
+                                             WidthRequest="24"
+                                             HeightRequest="24"
+                                             BackgroundColor="#DC2626"
+                                             CornerRadius="12"
+                                             Padding="4"
+                                             HorizontalOptions="End"
+                                             VerticalOptions="Start"
+                                             Margin="4"
+                                             Command="{Binding Source={RelativeSource AncestorType={x:Type vm:AddPropertyViewModel}}, Path=RemoveImageCommand}"
+                                             CommandParameter="{Binding .}" />
+                            </Grid>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </VerticalStackLayout>
+
+            <!-- Actions -->
+            <Button Text="Enregistrer"
+                    Command="{Binding SavePropertyCommand}"
+                    BackgroundColor="#FF6B35"
+                    TextColor="White"
+                    FontAttributes="Bold"
+                    CornerRadius="8"
+                    Margin="0,16,0,0" />
+
+            <Button Text="Annuler"
+                    Command="{Binding CancelCommand}"
+                    BackgroundColor="Transparent"
+                    TextColor="#6B7280" />
+
+            <!-- Loading -->
+            <ActivityIndicator IsRunning="{Binding IsBusy}"
+                               IsVisible="{Binding IsBusy}"
+                               Color="#FF6B35"
+                               HorizontalOptions="Center" />
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

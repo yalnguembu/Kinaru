@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:Kinaru.ViewModels"
+             x:Class="Kinaru.Views.AgentReservationsPage"
+             x:DataType="vm:AgentReservationsViewModel"
+             Title="Gestion Réservations"
+             BackgroundColor="#F3F4F6"
+             Loaded="OnPageLoaded">
+
+    <RefreshView IsRefreshing="{Binding IsRefreshing}"
+                 Command="{Binding RefreshCommand}">
+        <ScrollView>
+            <VerticalStackLayout Spacing="24" Padding="16">
+
+                <!-- Pending Reservations -->
+                <VerticalStackLayout Spacing="12" IsVisible="{Binding PendingReservations.Count, Converter={StaticResource IntToBoolConverter}}">
+                    <Label Text="En Attente" FontSize="18" FontAttributes="Bold" TextColor="#1E3A5F" />
+                    <CollectionView ItemsSource="{Binding PendingReservations}">
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <Border StrokeThickness="0" BackgroundColor="White" Margin="0,0,0,12" Padding="12">
+                                    <Border.StrokeShape><RoundRectangle CornerRadius="12"/></Border.StrokeShape>
+                                    <VerticalStackLayout Spacing="8">
+                                        <Label Text="{Binding Property.Titre}" FontAttributes="Bold" />
+                                        <Label Text="{Binding User.Nom}" TextColor="#6B7280" />
+                                        <Label Text="{Binding DateReservation, StringFormat='{0:dd/MM/yyyy}'}" TextColor="#FF6B35" />
+                                        <Label Text="{Binding Message}" TextColor="#4B5563" FontAttributes="Italic" />
+                                        
+                                        <Grid ColumnDefinitions="*,*" ColumnSpacing="12" Margin="0,8,0,0">
+                                            <Button Text="Refuser" 
+                                                    Command="{Binding Source={RelativeSource AncestorType={x:Type vm:AgentReservationsViewModel}}, Path=RejectReservationCommand}"
+                                                    CommandParameter="{Binding Id}"
+                                                    BackgroundColor="#FEE2E2" 
+                                                    TextColor="#DC2626" 
+                                                    Grid.Column="0"/>
+                                            <Button Text="Accepter" 
+                                                    Command="{Binding Source={RelativeSource AncestorType={x:Type vm:AgentReservationsViewModel}}, Path=AcceptReservationCommand}"
+                                                    CommandParameter="{Binding Id}"
+                                                    BackgroundColor="#D1FAE5" 
+                                                    TextColor="#059669" 
+                                                    Grid.Column="1"/>
+                                        </Grid>
+                                    </VerticalStackLayout>
+                                </Border>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </VerticalStackLayout>
+
+                <!-- Confirmed Reservations -->
+                <VerticalStackLayout Spacing="12" IsVisible="{Binding ConfirmedReservations.Count, Converter={StaticResource IntToBoolConverter}}">
+                    <Label Text="Confirmées" FontSize="18" FontAttributes="Bold" TextColor="#1E3A5F" />
+                    <CollectionView ItemsSource="{Binding ConfirmedReservations}">
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <Border StrokeThickness="0" BackgroundColor="White" Margin="0,0,0,12" Padding="12">
+                                    <Border.StrokeShape><RoundRectangle CornerRadius="12"/></Border.StrokeShape>
+                                    <VerticalStackLayout Spacing="4">
+                                        <Label Text="{Binding Property.Titre}" FontAttributes="Bold" />
+                                        <Label Text="{Binding User.Nom}" TextColor="#6B7280" />
+                                        <Label Text="{Binding DateReservation, StringFormat='{0:dd/MM/yyyy}'}" TextColor="#059669" />
+                                    </VerticalStackLayout>
+                                </Border>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </VerticalStackLayout>
+
+                <!-- Empty State -->
+                <Label Text="Aucune réservation trouvée"
+                       HorizontalOptions="Center"
+                       TextColor="#9CA3AF"
+                       IsVisible="{Binding PendingReservations.Count, Converter={StaticResource InvertedIntToBoolConverter}}" />
+
+                <!-- Loading -->
+                <ActivityIndicator IsRunning="{Binding IsBusy}"
+                                   IsVisible="{Binding IsBusy}"
+                                   Color="#FF6B35"
+                                   HorizontalOptions="Center" />
+
+            </VerticalStackLayout>
+        </ScrollView>
+    </RefreshView>
+</ContentPage>

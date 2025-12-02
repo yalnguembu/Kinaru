@@ -10,11 +10,22 @@
     <ShellContent
         Title="Login"
         ContentTemplate="{DataTemplate views:LoginPage}"
-        Route="LoginPage" />
+        Route="LoginPage"
+        Shell.NavBarIsVisible="False" />
 
-    <ShellContent
-        Title="Home"
-        ContentTemplate="{DataTemplate local:MainPage}"
-        Route="MainPage" />
+    <TabBar Route="MainPage">
+        <Tab Title="Accueil" Icon="home.png">
+            <ShellContent ContentTemplate="{DataTemplate views:HomePage}" Route="HomePage" />
+        </Tab>
+        <Tab Title="Favoris" Icon="heart.png">
+            <ShellContent ContentTemplate="{DataTemplate views:FavoritesPage}" Route="FavoritesPage" />
+        </Tab>
+        <Tab Title="Messages" Icon="chat.png">
+            <ShellContent ContentTemplate="{DataTemplate views:MessagingPage}" Route="MessagingPage" />
+        </Tab>
+        <Tab Title="Profil" Icon="user.png">
+            <ShellContent ContentTemplate="{DataTemplate views:ProfilePage}" Route="ProfilePage" />
+        </Tab>
+    </TabBar>
 
 </Shell>

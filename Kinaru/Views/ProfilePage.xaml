@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:Kinaru.ViewModels"
+             x:Class="Kinaru.Views.ProfilePage"
+             x:DataType="vm:ProfileViewModel"
+             Title="Profil"
+             BackgroundColor="White"
+             Loaded="OnPageLoaded">
+
+    <ScrollView>
+        <VerticalStackLayout Spacing="24" Padding="16">
+
+            <!-- Header / Avatar -->
+            <VerticalStackLayout Spacing="12" HorizontalOptions="Center">
+                <Border StrokeThickness="0"
+                        WidthRequest="100"
+                        HeightRequest="100"
+                        StrokeShape="RoundRectangle 50">
+                    <Image Source="user_avatar_placeholder.png"
+                           Aspect="AspectFill"
+                           WidthRequest="100"
+                           HeightRequest="100" />
+                </Border>
+                <Label Text="{Binding UserProfile.Email}"
+                       TextColor="#6B7280"
+                       FontSize="14"
+                       HorizontalOptions="Center" />
+            </VerticalStackLayout>
+
+            <!-- Edit Toggle -->
+            <Button Text="{Binding IsEditing, Converter={StaticResource BoolToObjectConverter}, ConverterParameter='Annuler|Modifier'}"
+                    Command="{Binding ToggleEditModeCommand}"
+                    BackgroundColor="Transparent"
+                    TextColor="#FF6B35"
+                    FontAttributes="Bold"
+                    HorizontalOptions="End" />
+
+            <!-- Info Form -->
+            <VerticalStackLayout Spacing="16">
+                
+                <!-- Name -->
+                <VerticalStackLayout Spacing="8">
+                    <Label Text="Nom" TextColor="#1E3A5F" FontAttributes="Bold" />
+                    <Border StrokeThickness="1" Stroke="#E5E7EB" BackgroundColor="#F9FAFB" Padding="12">
+                        <Border.StrokeShape><RoundRectangle CornerRadius="8"/></Border.StrokeShape>
+                        <Entry Text="{Binding EditNom}"
+                               IsReadOnly="{Binding IsEditing, Converter={StaticResource InvertedBoolConverter}}"
+                               TextColor="#1F2937" />
+                    </Border>
+                </VerticalStackLayout>
+
+                <!-- First Name -->
+                <VerticalStackLayout Spacing="8">
+                    <Label Text="Prénom" TextColor="#1E3A5F" FontAttributes="Bold" />
+                    <Border StrokeThickness="1" Stroke="#E5E7EB" BackgroundColor="#F9FAFB" Padding="12">
+                        <Border.StrokeShape><RoundRectangle CornerRadius="8"/></Border.StrokeShape>
+                        <Entry Text="{Binding EditPrenom}"
+                               IsReadOnly="{Binding IsEditing, Converter={StaticResource InvertedBoolConverter}}"
+                               TextColor="#1F2937" />
+                    </Border>
+                </VerticalStackLayout>
+
+                <!-- Phone -->
+                <VerticalStackLayout Spacing="8">
+                    <Label Text="Téléphone" TextColor="#1E3A5F" FontAttributes="Bold" />
+                    <Border StrokeThickness="1" Stroke="#E5E7EB" BackgroundColor="#F9FAFB" Padding="12">
+                        <Border.StrokeShape><RoundRectangle CornerRadius="8"/></Border.StrokeShape>
+                        <Entry Text="{Binding EditTelephone}"
+                               IsReadOnly="{Binding IsEditing, Converter={StaticResource InvertedBoolConverter}}"
+                               Keyboard="Telephone"
+                               TextColor="#1F2937" />
+                    </Border>
+                </VerticalStackLayout>
+
+                <!-- Location -->
+                <VerticalStackLayout Spacing="8">
+                    <Label Text="Lieu d'habitation" TextColor="#1E3A5F" FontAttributes="Bold" />
+                    <Border StrokeThickness="1" Stroke="#E5E7EB" BackgroundColor="#F9FAFB" Padding="12">
+                        <Border.StrokeShape><RoundRectangle CornerRadius="8"/></Border.StrokeShape>
+                        <Entry Text="{Binding EditLieuHabitation}"
+                               IsReadOnly="{Binding IsEditing, Converter={StaticResource InvertedBoolConverter}}"
+                               TextColor="#1F2937" />
+                    </Border>
+                </VerticalStackLayout>
+
+            </VerticalStackLayout>
+
+            <!-- Actions -->
+            <VerticalStackLayout Spacing="16" Margin="0,24,0,0">
+                
+                <!-- Save Button -->
+                <Button Text="Enregistrer les modifications"
+                        Command="{Binding SaveProfileCommand}"
+                        BackgroundColor="#1E3A5F"
+                        TextColor="White"
+                        CornerRadius="25"
+                        HeightRequest="50"
+                        FontAttributes="Bold"
+                        IsVisible="{Binding IsEditing}" />
+
+                <!-- Change Password -->
+                <Button Text="Changer le mot de passe"
+                        Command="{Binding ChangePasswordCommand}"
+                        BackgroundColor="White"
+                        TextColor="#1E3A5F"
+                        BorderColor="#1E3A5F"
+                        BorderWidth="1"
+                        CornerRadius="25"
+                        HeightRequest="50"
+                        FontAttributes="Bold"
+                        IsVisible="{Binding IsEditing, Converter={StaticResource InvertedBoolConverter}}" />
+
+                <!-- Agent Dashboard -->
+                <Button Text="Espace Agent / Propriétaire"
+                        Command="{Binding NavigateToAgentDashboardCommand}"
+                        BackgroundColor="#10B981"
+                        TextColor="White"
+                        CornerRadius="25"
+                        HeightRequest="50"
+                        FontAttributes="Bold"
+                        IsVisible="{Binding IsEditing, Converter={StaticResource InvertedBoolConverter}}" />
+
+                <!-- Logout -->
+                <Button Text="Se déconnecter"
+                        Command="{Binding LogoutCommand}"
+                        BackgroundColor="#FEE2E2"
+                        TextColor="#DC2626"
+                        CornerRadius="25"
+                        HeightRequest="50"
+                        FontAttributes="Bold" />
+            </VerticalStackLayout>
+
+            <!-- Loading -->
+            <ActivityIndicator IsRunning="{Binding IsBusy}"
+                               IsVisible="{Binding IsBusy}"
+                               Color="#FF6B35"
+                               HorizontalOptions="Center" />
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

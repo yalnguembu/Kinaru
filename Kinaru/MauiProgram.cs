@@ -67,6 +67,33 @@ public static class MauiProgram
             return RestService.For<IMessagingService>(httpClient);
         });
 
+        builder.Services.AddSingleton(sp =>
+        {
+            var httpClient = new HttpClient
+            {
+                BaseAddress = new Uri(baseUrl)
+            };
+            return RestService.For<IFavoriteService>(httpClient);
+        });
+
+        builder.Services.AddSingleton(sp =>
+        {
+            var httpClient = new HttpClient
+            {
+                BaseAddress = new Uri(baseUrl)
+            };
+            return RestService.For<IUserService>(httpClient);
+        });
+
+        builder.Services.AddSingleton(sp =>
+        {
+            var httpClient = new HttpClient
+            {
+                BaseAddress = new Uri(baseUrl)
+            };
+            return RestService.For<IAgentService>(httpClient);
+        });
+
         builder.Services.AddSingleton<AuthService>();
 
         // ViewModels
@@ -76,6 +103,15 @@ public static class MauiProgram
         builder.Services.AddTransient<PropertyDetailsViewModel>();
         builder.Services.AddTransient<PropertyReservationViewModel>();
         builder.Services.AddTransient<MessagingViewModel>();
+        builder.Services.AddTransient<FilterViewModel>();
+        builder.Services.AddTransient<FavoritesViewModel>();
+        builder.Services.AddTransient<ProfileViewModel>();
+        builder.Services.AddTransient<AgentDashboardViewModel>();
+        builder.Services.AddTransient<MyPropertiesViewModel>();
+        builder.Services.AddTransient<AddPropertyViewModel>();
+        builder.Services.AddTransient<AgentReservationsViewModel>();
+        builder.Services.AddTransient<AgentProfileViewModel>();
+        builder.Services.AddTransient<AgentCalendarViewModel>();
 
         // Views
         builder.Services.AddTransient<LoginPage>();
@@ -85,6 +121,15 @@ public static class MauiProgram
         builder.Services.AddTransient<PropertyDetailsPage>();
         builder.Services.AddTransient<PropertyReservationPage>();
         builder.Services.AddTransient<MessagingPage>();
+        builder.Services.AddTransient<FilterPage>();
+        builder.Services.AddTransient<FavoritesPage>();
+        builder.Services.AddTransient<ProfilePage>();
+        builder.Services.AddTransient<AgentDashboardPage>();
+        builder.Services.AddTransient<MyPropertiesPage>();
+        builder.Services.AddTransient<AddPropertyPage>();
+        builder.Services.AddTransient<AgentReservationsPage>();
+        builder.Services.AddTransient<AgentProfilePage>();
+        builder.Services.AddTransient<AgentCalendarPage>();
 
         return builder.Build();
     }

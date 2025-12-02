@@ -26,4 +26,10 @@ public class AuthService
     {
         return await _authApi.RegisterAsync(request);
     }
+
+    public void Logout()
+    {
+        // TODO: Clear stored token
+        // SecureStorage.Default.Remove("auth_token");
+    }
 }

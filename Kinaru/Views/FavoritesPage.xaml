@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:Kinaru.ViewModels"
+             x:Class="Kinaru.Views.FavoritesPage"
+             x:DataType="vm:FavoritesViewModel"
+             Title="Favoris"
+             BackgroundColor="White"
+             Loaded="OnPageLoaded">
+
+    <RefreshView IsRefreshing="{Binding IsRefreshing}"
+                 Command="{Binding RefreshCommand}">
+        <ScrollView>
+            <VerticalStackLayout Spacing="16" Padding="16">
+
+                <!-- Header -->
+                <Label Text="Mes Favoris"
+                       FontSize="24"
+                       FontAttributes="Bold"
+                       TextColor="#1E3A5F"
+                       Margin="0,0,0,8" />
+
+                <!-- Empty State -->
+                <VerticalStackLayout Spacing="16"
+                                     VerticalOptions="Center"
+                                     HorizontalOptions="Center"
+                                     IsVisible="{Binding Favorites.Count, Converter={StaticResource InvertedIntToBoolConverter}}">
+                    <Image Source="heart_outline.png"
+                           WidthRequest="64"
+                           HeightRequest="64"
+                           Opacity="0.5" />
+                    <Label Text="Aucun favori pour le moment"
+                           FontSize="16"
+                           TextColor="#6B7280"
+                           HorizontalOptions="Center" />
+                </VerticalStackLayout>
+
+                <!-- Favorites List -->
+                <CollectionView ItemsSource="{Binding Favorites}">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Border StrokeThickness="0"
+                                    BackgroundColor="White"
+                                    Margin="0,0,0,16">
+                                <Border.StrokeShape>
+                                    <RoundRectangle CornerRadius="12" />
+                                </Border.StrokeShape>
+                                <Border.Shadow>
+                                    <Shadow Brush="#E5E7EB" Offset="0,2" Radius="8" Opacity="0.3" />
+                                </Border.Shadow>
+                                <Grid ColumnDefinitions="120,*" HeightRequest="120">
+                                    <!-- Property Image -->
+                                    <Image Source="{Binding Property.ImagePrincipale}"
+                                           Aspect="AspectFill"
+                                           Grid.Column="0">
+                                        <Image.Clip>
+                                            <RoundRectangleGeometry CornerRadius="12,0,0,12" Rect="0,0,120,120" />
+                                        </Image.Clip>
+                                    </Image>
+
+                                    <!-- Property Info -->
+                                    <Grid RowDefinitions="*,Auto" Padding="12" Grid.Column="1">
+                                        <VerticalStackLayout Spacing="4" Grid.Row="0">
+                                            <Label Text="{Binding Property.Prix, StringFormat='{0:N0} FCFA'}"
+                                                   FontSize="16"
+                                                   FontAttributes="Bold"
+                                                   TextColor="#FF6B35" />
+                                            <Label Text="{Binding Property.Titre}"
+                                                   FontSize="14"
+                                                   FontAttributes="Bold"
+                                                   TextColor="#1F2937"
+                                                   MaxLines="1"
+                                                   LineBreakMode="TailTruncation" />
+                                            <Label Text="{Binding Property.Adresse}"
+                                                   FontSize="12"
+                                                   TextColor="#6B7280"
+                                                   MaxLines="1"
+                                                   LineBreakMode="TailTruncation" />
+                                        </VerticalStackLayout>
+
+                                        <!-- Remove Button -->
+                                        <ImageButton Source="trash.png"
+                                                     WidthRequest="32"
+                                                     HeightRequest="32"
+                                                     BackgroundColor="Transparent"
+                                                     Padding="6"
+                                                     HorizontalOptions="End"
+                                                     VerticalOptions="Start"
+                                                     Command="{Binding Source={RelativeSource AncestorType={x:Type vm:FavoritesViewModel}}, Path=RemoveFavoriteCommand}"
+                                                     CommandParameter="{Binding PropertyId}"
+                                                     Grid.Row="0" />
+                                    </Grid>
+
+                                    <Grid.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type vm:FavoritesViewModel}}, Path=NavigateToDetailsCommand}"
+                                                              CommandParameter="{Binding PropertyId}" />
+                                    </Grid.GestureRecognizers>
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+
+                <!-- Loading Indicator -->
+                <ActivityIndicator IsRunning="{Binding IsBusy}"
+                                   IsVisible="{Binding IsBusy}"
+                                   Color="#FF6B35"
+                                   HorizontalOptions="Center" />
+
+                <!-- Error Message -->
+                <Label Text="{Binding ErrorMessage}"
+                       TextColor="Red"
+                       FontSize="14"
+                       HorizontalOptions="Center"
+                       IsVisible="{Binding ErrorMessage, Converter={StaticResource StringNotEmptyConverter}}" />
+
+            </VerticalStackLayout>
+        </ScrollView>
+    </RefreshView>
+</ContentPage>

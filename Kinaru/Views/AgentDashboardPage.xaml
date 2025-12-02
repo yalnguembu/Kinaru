@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:Kinaru.ViewModels"
+             x:Class="Kinaru.Views.AgentDashboardPage"
+             x:DataType="vm:AgentDashboardViewModel"
+             Title="Espace Agent"
+             BackgroundColor="#F3F4F6"
+             Loaded="OnPageLoaded">
+
+    <ScrollView>
+        <VerticalStackLayout Spacing="24" Padding="16">
+
+            <Label Text="Tableau de bord"
+                   FontSize="24"
+                   FontAttributes="Bold"
+                   TextColor="#1E3A5F" />
+
+            <Grid RowDefinitions="Auto,Auto" ColumnDefinitions="*,*" RowSpacing="16" ColumnSpacing="16">
+                
+                <Border StrokeThickness="0" BackgroundColor="White" Padding="16" Grid.Row="0" Grid.Column="0">
+                    <Border.StrokeShape><RoundRectangle CornerRadius="16"/></Border.StrokeShape>
+                    <VerticalStackLayout Spacing="8" HorizontalOptions="Center">
+                        <Label Text="{Binding TotalProperties}" FontSize="32" FontAttributes="Bold" TextColor="#1E3A5F" HorizontalOptions="Center" />
+                        <Label Text="Propriétés" FontSize="14" TextColor="#6B7280" HorizontalOptions="Center" />
+                    </VerticalStackLayout>
+                </Border>
+
+                <Border StrokeThickness="0" BackgroundColor="White" Padding="16" Grid.Row="0" Grid.Column="1">
+                    <Border.StrokeShape><RoundRectangle CornerRadius="16"/></Border.StrokeShape>
+                    <VerticalStackLayout Spacing="8" HorizontalOptions="Center">
+                        <Label Text="{Binding PendingReservations}" FontSize="32" FontAttributes="Bold" TextColor="#F59E0B" HorizontalOptions="Center" />
+                        <Label Text="En attente" FontSize="14" TextColor="#6B7280" HorizontalOptions="Center" />
+                    </VerticalStackLayout>
+                </Border>
+
+            </Grid>
+
+            <Label Text="Actions rapides" FontSize="18" FontAttributes="Bold" TextColor="#1E3A5F" />
+
+            <Grid RowDefinitions="Auto,Auto" ColumnDefinitions="*,*" RowSpacing="16" ColumnSpacing="16">
+                
+                <Border StrokeThickness="0" BackgroundColor="White" Padding="16" Grid.Row="0" Grid.Column="0">
+                    <Border.StrokeShape><RoundRectangle CornerRadius="16"/></Border.StrokeShape>
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding NavigateToMyPropertiesCommand}" />
+                    </Border.GestureRecognizers>
+                    <VerticalStackLayout Spacing="8" HorizontalOptions="Center">
+                        <Image Source="home.png" WidthRequest="48" HeightRequest="48" />
+                        <Label Text="Mes Propriétés" FontAttributes="Bold" HorizontalOptions="Center" />
+                    </VerticalStackLayout>
+                </Border>
+
+                <Border StrokeThickness="0" BackgroundColor="White" Padding="16" Grid.Row="0" Grid.Column="1">
+                    <Border.StrokeShape><RoundRectangle CornerRadius="16"/></Border.StrokeShape>
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding NavigateToReservationsCommand}" />
+                    </Border.GestureRecognizers>
+                    <VerticalStackLayout Spacing="8" HorizontalOptions="Center">
+                        <Image Source="calendar.png" WidthRequest="48" HeightRequest="48" />
+                        <Label Text="Réservations" FontAttributes="Bold" HorizontalOptions="Center" />
+                    </VerticalStackLayout>
+                </Border>
+
+                <Border StrokeThickness="0" BackgroundColor="White" Padding="16" Grid.Row="1" Grid.Column="0">
+                    <Border.StrokeShape><RoundRectangle CornerRadius="16"/></Border.StrokeShape>
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding NavigateToProfileCommand}" />
+                    </Border.GestureRecognizers>
+                    <VerticalStackLayout Spacing="8" HorizontalOptions="Center">
+                        <Image Source="user.png" WidthRequest="48" HeightRequest="48" />
+                        <Label Text="Mon Profil" FontAttributes="Bold" HorizontalOptions="Center" />
+                    </VerticalStackLayout>
+                </Border>
+
+                <Border StrokeThickness="0" BackgroundColor="White" Padding="16" Grid.Row="1" Grid.Column="1">
+                    <Border.StrokeShape><RoundRectangle CornerRadius="16"/></Border.StrokeShape>
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding NavigateToCalendarCommand}" />
+                    </Border.GestureRecognizers>
+                    <VerticalStackLayout Spacing="8" HorizontalOptions="Center">
+                        <Image Source="calendar.png" WidthRequest="48" HeightRequest="48" />
+                        <Label Text="Disponibilités" FontAttributes="Bold" HorizontalOptions="Center" />
+                    </VerticalStackLayout>
+                </Border>
+
+            </Grid>
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:Kinaru.ViewModels"
+             x:Class="Kinaru.Views.MyPropertiesPage"
+             x:DataType="vm:MyPropertiesViewModel"
+             Title="Mes Propriétés"
+             BackgroundColor="#F3F4F6"
+             Loaded="OnPageLoaded">
+
+    <Grid>
+        <RefreshView IsRefreshing="{Binding IsRefreshing}"
+                     Command="{Binding RefreshCommand}">
+            <ScrollView>
+                <VerticalStackLayout Spacing="16" Padding="16">
+
+                    <!-- Filters -->
+                    <ScrollView Orientation="Horizontal" HorizontalScrollBarVisibility="Never">
+                        <HorizontalStackLayout Spacing="8">
+                            <Button Text="Tous" 
+                                    Command="{Binding FilterByStatusCommand}" 
+                                    CommandParameter="All"
+                                    HeightRequest="36"
+                                    Padding="16,0"
+                                    CornerRadius="18"
+                                    BackgroundColor="{Binding FilterStatus, Converter={StaticResource BoolToColorConverter}, ConverterParameter='All'}"
+                                    TextColor="{Binding FilterStatus, Converter={StaticResource BoolToTextColorConverter}, ConverterParameter='All'}" />
+                            
+                            <Button Text="Disponible" 
+                                    Command="{Binding FilterByStatusCommand}" 
+                                    CommandParameter="Disponible"
+                                    HeightRequest="36"
+                                    Padding="16,0"
+                                    CornerRadius="18"
+                                    BackgroundColor="{Binding FilterStatus, Converter={StaticResource BoolToColorConverter}, ConverterParameter='Disponible'}"
+                                    TextColor="{Binding FilterStatus, Converter={StaticResource BoolToTextColorConverter}, ConverterParameter='Disponible'}" />
+                            
+                            <Button Text="Vendu" 
+                                    Command="{Binding FilterByStatusCommand}" 
+                                    CommandParameter="Vendu"
+                                    HeightRequest="36"
+                                    Padding="16,0"
+                                    CornerRadius="18"
+                                    BackgroundColor="{Binding FilterStatus, Converter={StaticResource BoolToColorConverter}, ConverterParameter='Vendu'}"
+                                    TextColor="{Binding FilterStatus, Converter={StaticResource BoolToTextColorConverter}, ConverterParameter='Vendu'}" />
+                            
+                            <Button Text="Loué" 
+                                    Command="{Binding FilterByStatusCommand}" 
+                                    CommandParameter="Loue"
+                                    HeightRequest="36"
+                                    Padding="16,0"
+                                    CornerRadius="18"
+                                    BackgroundColor="{Binding FilterStatus, Converter={StaticResource BoolToColorConverter}, ConverterParameter='Loue'}"
+                                    TextColor="{Binding FilterStatus, Converter={StaticResource BoolToTextColorConverter}, ConverterParameter='Loue'}" />
+                        </HorizontalStackLayout>
+                    </ScrollView>
+
+                    <!-- Empty State -->
+                    <VerticalStackLayout Spacing="16"
+                                         VerticalOptions="Center"
+                                         HorizontalOptions="Center"
+                                         IsVisible="{Binding Properties.Count, Converter={StaticResource InvertedIntToBoolConverter}}">
+                        <Label Text="Vous n'avez ajouté aucune propriété"
+                               FontSize="16"
+                               TextColor="#6B7280"
+                               HorizontalOptions="Center" />
+                    </VerticalStackLayout>
+
+                    <!-- Properties List -->
+                    <CollectionView ItemsSource="{Binding Properties}">
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <Border StrokeThickness="0"
+                                        BackgroundColor="White"
+                                        Margin="0,0,0,16">
+                                    <Border.StrokeShape>
+                                        <RoundRectangle CornerRadius="12" />
+                                    </Border.StrokeShape>
+                                    <Border.Shadow>
+                                        <Shadow Brush="#E5E7EB" Offset="0,2" Radius="8" Opacity="0.3" />
+                                    </Border.Shadow>
+                                    <Grid RowDefinitions="150,Auto" ColumnDefinitions="*">
+                                        <!-- Image -->
+                                        <Image Source="{Binding ImagePrincipale}"
+                                               Aspect="AspectFill"
+                                               HeightRequest="150"
+                                               Grid.Row="0">
+                                            <Image.Clip>
+                                                <RoundRectangleGeometry CornerRadius="12,12,0,0" Rect="0,0,400,150" />
+                                            </Image.Clip>
+                                        </Image>
+
+                                        <!-- Info -->
+                                        <Grid RowDefinitions="Auto,Auto,Auto" ColumnDefinitions="*,Auto" Padding="12" Grid.Row="1">
+                                            <VerticalStackLayout Spacing="4" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2">
+                                                <HorizontalStackLayout Spacing="8">
+                                                    <Label Text="{Binding Titre}"
+                                                           FontSize="16"
+                                                           FontAttributes="Bold"
+                                                           TextColor="#1F2937" />
+                                                    <!-- Status Badge -->
+                                                    <Border Padding="6,2" BackgroundColor="{Binding Statut, Converter={StaticResource PropertyStatusToColorConverter}}">
+                                                        <Border.StrokeShape><RoundRectangle CornerRadius="4"/></Border.StrokeShape>
+                                                        <Label Text="{Binding Statut}" FontSize="10" TextColor="White" FontAttributes="Bold" />
+                                                    </Border>
+                                                </HorizontalStackLayout>
+                                                <Label Text="{Binding Prix, StringFormat='{0:N0} FCFA'}"
+                                                       FontSize="14"
+                                                       TextColor="#FF6B35"
+                                                       FontAttributes="Bold" />
+                                                <Label Text="{Binding Adresse}"
+                                                       FontSize="12"
+                                                       TextColor="#6B7280" />
+                                            </VerticalStackLayout>
+
+                                            <!-- Actions Row 1: Edit/Delete -->
+                                            <HorizontalStackLayout Spacing="8" Grid.Row="1" Grid.Column="1" VerticalOptions="Center">
+                                                <ImageButton Source="edit.png"
+                                                             WidthRequest="32"
+                                                             HeightRequest="32"
+                                                             BackgroundColor="#F3F4F6"
+                                                             CornerRadius="16"
+                                                             Padding="6"
+                                                             Command="{Binding Source={RelativeSource AncestorType={x:Type vm:MyPropertiesViewModel}}, Path=NavigateToEditPropertyCommand}"
+                                                             CommandParameter="{Binding Id}" />
+                                                <ImageButton Source="trash.png"
+                                                             WidthRequest="32"
+                                                             HeightRequest="32"
+                                                             BackgroundColor="#FEE2E2"
+                                                             CornerRadius="16"
+                                                             Padding="6"
+                                                             Command="{Binding Source={RelativeSource AncestorType={x:Type vm:MyPropertiesViewModel}}, Path=DeletePropertyCommand}"
+                                                             CommandParameter="{Binding Id}" />
+                                            </HorizontalStackLayout>
+
+                                            <!-- Actions Row 2: Change Status Button -->
+                                            <Button Text="Changer statut" 
+                                                    Grid.Row="2" 
+                                                    Grid.Column="0" 
+                                                    Grid.ColumnSpan="2"
+                                                    Margin="0,8,0,0"
+                                                    HeightRequest="36"
+                                                    FontSize="12"
+                                                    BackgroundColor="#1E3A5F"
+                                                    TextColor="White"
+                                                    CornerRadius="8"
+                                                    Command="{Binding Source={RelativeSource AncestorType={x:Type vm:MyPropertiesViewModel}}, Path=UpdatePropertyStatusCommand}"
+                                                    CommandParameter="{Binding .}" />
+                                        </Grid>
+                                    </Grid>
+                                </Border>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+
+                    <!-- Loading Indicator -->
+                    <ActivityIndicator IsRunning="{Binding IsBusy}"
+                                       IsVisible="{Binding IsBusy}"
+                                       Color="#FF6B35"
+                                       HorizontalOptions="Center" />
+
+                    <!-- Error Message -->
+                    <Label Text="{Binding ErrorMessage}"
+                           TextColor="Red"
+                           FontSize="14"
+                           HorizontalOptions="Center"
+                           IsVisible="{Binding ErrorMessage, Converter={StaticResource StringNotEmptyConverter}}" />
+
+                </VerticalStackLayout>
+            </ScrollView>
+        </RefreshView>
+
+        <!-- FAB Add Property -->
+        <Button Text="+"
+                FontSize="24"
+                TextColor="White"
+                BackgroundColor="#FF6B35"
+                WidthRequest="56"
+                HeightRequest="56"
+                CornerRadius="28"
+                HorizontalOptions="End"
+                VerticalOptions="End"
+                Margin="16"
+                Command="{Binding NavigateToAddPropertyCommand}"
+                Shadow="{Shadow Brush=Black, Offset='0,4', Radius=8, Opacity=0.3}" />
+    </Grid>
+</ContentPage>

@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:Kinaru.ViewModels"
+             x:Class="Kinaru.Views.AgentProfilePage"
+             x:DataType="vm:AgentProfileViewModel"
+             Title="Profil Agent"
+             BackgroundColor="#F3F4F6"
+             Loaded="OnPageLoaded">
+
+    <ScrollView>
+        <VerticalStackLayout Spacing="16" Padding="16">
+
+            <ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}" Color="#1E3A5F" />
+
+            <Label Text="{Binding ErrorMessage}" 
+                   TextColor="Red" 
+                   IsVisible="{Binding ErrorMessage, Converter={StaticResource StringNotEmptyConverter}}" />
+
+            <Border StrokeThickness="0" BackgroundColor="White" Padding="16" IsVisible="{Binding HasProfile}">
+                <Border.StrokeShape><RoundRectangle CornerRadius="16"/></Border.StrokeShape>
+                <VerticalStackLayout Spacing="12">
+                    
+                    <HorizontalStackLayout Spacing="12" HorizontalOptions="Center">
+                        <Image Source="user.png" WidthRequest="80" HeightRequest="80" />
+                        <VerticalStackLayout Spacing="4" VerticalOptions="Center">
+                            <Label Text="{Binding AgentProfile.User.Nom}" FontSize="20" FontAttributes="Bold" />
+                            <HorizontalStackLayout Spacing="4">
+                                <Image Source="star.png" WidthRequest="16" HeightRequest="16" />
+                                <Label Text="{Binding AgentProfile.NoteMoyenne, StringFormat='{0:F1}'}" FontSize="14" />
+                                <Label Text="{Binding AgentProfile.NombreAvis, StringFormat='({0} avis)'}" FontSize="14" TextColor="#6B7280" />
+                            </HorizontalStackLayout>
+                            <Label Text="✓ Vérifié" 
+                                   FontSize="12" 
+                                   TextColor="#10B981"
+                                   IsVisible="{Binding AgentProfile.Verifie}" />
+                        </VerticalStackLayout>
+                    </HorizontalStackLayout>
+
+                    <BoxView HeightRequest="1" Color="#E5E7EB" />
+
+                    <Label Text="Biographie" FontAttributes="Bold" FontSize="14" IsVisible="{Binding IsEditing, Converter={StaticResource InvertedBoolConverter}}" />
+                    <Label Text="{Binding AgentProfile.Biographie}" 
+                           TextColor="#6B7280" 
+                           IsVisible="{Binding IsEditing, Converter={StaticResource InvertedBoolConverter}}" />
+                    <Editor Text="{Binding EditBiographie}" 
+                            Placeholder="Décrivez votre expérience..."
+                            HeightRequest="100"
+                            IsVisible="{Binding IsEditing}" />
+
+                    <Label Text="Spécialités" FontAttributes="Bold" FontSize="14" IsVisible="{Binding IsEditing, Converter={StaticResource InvertedBoolConverter}}" />
+                    <Label Text="{Binding AgentProfile.Specialites}" 
+                           TextColor="#6B7280" 
+                           IsVisible="{Binding IsEditing, Converter={StaticResource InvertedBoolConverter}}" />
+                    <Entry Text="{Binding EditSpecialites}" 
+                           Placeholder="Ex: Appartements, Maisons de luxe"
+                           IsVisible="{Binding IsEditing}" />
+
+                    <Label Text="Zone d'intervention" FontAttributes="Bold" FontSize="14" IsVisible="{Binding IsEditing, Converter={StaticResource InvertedBoolConverter}}" />
+                    <Label Text="{Binding AgentProfile.ZoneIntervention}" 
+                           TextColor="#6B7280" 
+                           IsVisible="{Binding IsEditing, Converter={StaticResource InvertedBoolConverter}}" />
+                    <Entry Text="{Binding EditZoneIntervention}" 
+                           Placeholder="Ex: Douala, Yaoundé"
+                           IsVisible="{Binding IsEditing}" />
+
+                    <Label Text="Années d'expérience" FontAttributes="Bold" FontSize="14" IsVisible="{Binding IsEditing, Converter={StaticResource InvertedBoolConverter}}" />
+                    <Label Text="{Binding AgentProfile.AnneesExperience, StringFormat='{0} ans'}" 
+                           TextColor="#6B7280" 
+                           IsVisible="{Binding IsEditing, Converter={StaticResource InvertedBoolConverter}}" />
+                    <Entry Text="{Binding EditAnneesExperience}" 
+                           Placeholder="Nombre d'années"
+                           Keyboard="Numeric"
+                           IsVisible="{Binding IsEditing}" />
+
+                    <BoxView HeightRequest="1" Color="#E5E7EB" />
+
+                    <Label Text="Réseaux sociaux" FontAttributes="Bold" FontSize="16" />
+
+                    <HorizontalStackLayout Spacing="8">
+                        <Label Text="Site Web:" WidthRequest="100" />
+                        <Label Text="{Binding AgentProfile.SiteWeb}" 
+                               TextColor="#3B82F6" 
+                               IsVisible="{Binding IsEditing, Converter={StaticResource InvertedBoolConverter}}" />
+                        <Entry Text="{Binding EditSiteWeb}" 
+                               Placeholder="https://..."
+                               HorizontalOptions="FillAndExpand"
+                               IsVisible="{Binding IsEditing}" />
+                    </HorizontalStackLayout>
+
+                    <HorizontalStackLayout Spacing="8">
+                        <Label Text="Facebook:" WidthRequest="100" />
+                        <Label Text="{Binding AgentProfile.Facebook}" 
+                               TextColor="#3B82F6" 
+                               IsVisible="{Binding IsEditing, Converter={StaticResource InvertedBoolConverter}}" />
+                        <Entry Text="{Binding EditFacebook}" 
+                               Placeholder="URL Facebook"
+                               HorizontalOptions="FillAndExpand"
+                               IsVisible="{Binding IsEditing}" />
+                    </HorizontalStackLayout>
+
+                    <HorizontalStackLayout Spacing="8">
+                        <Label Text="LinkedIn:" WidthRequest="100" />
+                        <Label Text="{Binding AgentProfile.LinkedIn}" 
+                               TextColor="#3B82F6" 
+                               IsVisible="{Binding IsEditing, Converter={StaticResource InvertedBoolConverter}}" />
+                        <Entry Text="{Binding EditLinkedIn}" 
+                               Placeholder="URL LinkedIn"
+                               HorizontalOptions="FillAndExpand"
+                               IsVisible="{Binding IsEditing}" />
+                    </HorizontalStackLayout>
+
+                    <HorizontalStackLayout Spacing="8">
+                        <Label Text="Instagram:" WidthRequest="100" />
+                        <Label Text="{Binding AgentProfile.Instagram}" 
+                               TextColor="#3B82F6" 
+                               IsVisible="{Binding IsEditing, Converter={StaticResource InvertedBoolConverter}}" />
+                        <Entry Text="{Binding EditInstagram}" 
+                               Placeholder="URL Instagram"
+                               HorizontalOptions="FillAndExpand"
+                               IsVisible="{Binding IsEditing}" />
+                    </HorizontalStackLayout>
+
+                </VerticalStackLayout>
+            </Border>
+
+            <Border StrokeThickness="0" BackgroundColor="White" Padding="16" IsVisible="{Binding HasProfile, Converter={StaticResource InvertedBoolConverter}}">
+                <Border.StrokeShape><RoundRectangle CornerRadius="16"/></Border.StrokeShape>
+                <VerticalStackLayout Spacing="12" HorizontalOptions="Center">
+                    <Label Text="Aucun profil agent" FontSize="18" FontAttributes="Bold" HorizontalOptions="Center" />
+                    <Label Text="Créez votre profil agent pour commencer" TextColor="#6B7280" HorizontalOptions="Center" />
+                    <Button Text="Créer mon profil" 
+                            Command="{Binding ToggleEditModeCommand}"
+                            BackgroundColor="#1E3A5F" 
+                            TextColor="White" 
+                            CornerRadius="8" />
+                </VerticalStackLayout>
+            </Border>
+
+            <HorizontalStackLayout Spacing="12" HorizontalOptions="Center" IsVisible="{Binding HasProfile}">
+                <Button Text="Modifier" 
+                        Command="{Binding ToggleEditModeCommand}"
+                        BackgroundColor="#6B7280" 
+                        TextColor="White" 
+                        CornerRadius="8"
+                        WidthRequest="120"
+                        IsVisible="{Binding IsEditing, Converter={StaticResource InvertedBoolConverter}}" />
+                <Button Text="Annuler" 
+                        Command="{Binding ToggleEditModeCommand}"
+                        BackgroundColor="#6B7280" 
+                        TextColor="White" 
+                        CornerRadius="8"
+                        WidthRequest="120"
+                        IsVisible="{Binding IsEditing}" />
+                <Button Text="Enregistrer" 
+                        Command="{Binding SaveProfileCommand}"
+                        BackgroundColor="#1E3A5F" 
+                        TextColor="White" 
+                        CornerRadius="8"
+                        WidthRequest="120"
+                        IsVisible="{Binding IsEditing}" />
+            </HorizontalStackLayout>
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

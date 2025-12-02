@@ -7,4 +7,11 @@ public partial class HomePage : ContentPage
         InitializeComponent();
         BindingContext = viewModel;
     }
+    private void OnPageLoaded(object sender, EventArgs e)
+    {
+        if (BindingContext is ViewModels.HomeViewModel viewModel)
+        {
+            viewModel.LoadDataCommand.Execute(null);
+        }
+    }
 }

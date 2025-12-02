@@ -91,7 +91,7 @@ public partial class PropertyReservationViewModel : ObservableObject
 
             var reservation = new CreateReservationDto
             {
-                ProprieteId = PropertyId,
+                PropertyId = PropertyId,
                 DateReservation = SelectedDate,
                 HeureDebut = SelectedStartTime,
                 HeureFin = SelectedEndTime,

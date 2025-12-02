@@ -17,6 +17,8 @@
             <converters:BoolToColorConverter x:Key="BoolToColorConverter" />
             <converters:BoolToTextColorConverter x:Key="BoolToTextColorConverter" />
             <converters:BoolToLayoutOptionsConverter x:Key="BoolToLayoutOptionsConverter" />
+            <converters:InvertedIntToBoolConverter x:Key="InvertedIntToBoolConverter" />
+            <converters:PropertyStatusToColorConverter x:Key="PropertyStatusToColorConverter" />
         </ResourceDictionary>
     </Application.Resources>
 </Application>

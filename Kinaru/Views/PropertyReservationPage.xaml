@@ -50,7 +50,6 @@
                                VerticalOptions="Center"
                                Grid.Column="0" />
                         <DatePicker Date="{Binding SelectedDate}"
-                                    MinimumDate="{x:Static System:DateTime.Today}"
                                     TextColor="#1F2937"
                                     BackgroundColor="Transparent"
                                     Grid.Column="1"

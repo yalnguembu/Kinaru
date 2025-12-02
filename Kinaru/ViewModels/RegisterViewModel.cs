@@ -11,25 +11,31 @@ public partial class RegisterViewModel : ObservableObject
     private readonly AuthService _authService;
 
     [ObservableProperty]
-    private string nom;
+    private int currentStep = 1;
 
     [ObservableProperty]
-    private string prenom;
+    private string nom = string.Empty;
 
     [ObservableProperty]
-    private string email;
+    private string prenom = string.Empty;
 
     [ObservableProperty]
-    private string password;
+    private string lieuHabitation = string.Empty;
 
     [ObservableProperty]
-    private string telephone;
+    private string telephone = string.Empty;
+
+    [ObservableProperty]
+    private string email = string.Empty;
+
+    [ObservableProperty]
+    private string password = string.Empty;
 
     [ObservableProperty]
     private bool isBusy;
 
     [ObservableProperty]
-    private string errorMessage;
+    private string errorMessage = string.Empty;
 
     public RegisterViewModel(AuthService authService)
     {
@@ -37,9 +43,41 @@ public partial class RegisterViewModel : ObservableObject
     }
 
     [RelayCommand]
+    private void NextStep()
+    {
+        if (CurrentStep == 1)
+        {
+            if (string.IsNullOrWhiteSpace(Nom) || string.IsNullOrWhiteSpace(Prenom) ||
+                string.IsNullOrWhiteSpace(LieuHabitation) || string.IsNullOrWhiteSpace(Telephone))
+            {
+                ErrorMessage = "Veuillez remplir tous les champs.";
+                return;
+            }
+            CurrentStep = 2;
+            ErrorMessage = string.Empty;
+        }
+    }
+
+    [RelayCommand]
+    private void PreviousStep()
+    {
+        if (CurrentStep == 2)
+        {
+            CurrentStep = 1;
+            ErrorMessage = string.Empty;
+        }
+    }
+
+    [RelayCommand]
     private async Task RegisterAsync()
     {
         if (IsBusy) return;
+
+        if (string.IsNullOrWhiteSpace(Email) || string.IsNullOrWhiteSpace(Password))
+        {
+            ErrorMessage = "Veuillez remplir tous les champs.";
+            return;
+        }
 
         try
         {
@@ -53,12 +91,11 @@ public partial class RegisterViewModel : ObservableObject
                 Email = Email,
                 Password = Password,
                 Telephone = Telephone,
-                Type = UserType.Acheteur // Default for now
+                Type = UserType.Acheteur
             };
 
             var response = await _authService.RegisterAsync(request);
             
-            // Navigate to main page or store token
             await Shell.Current.GoToAsync("//MainPage");
         }
         catch (Exception ex)
