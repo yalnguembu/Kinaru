@@ -26,6 +26,7 @@ public class UserService : IUserService
             Prenom = user.Prenom,
             Email = user.Email,
             Telephone = user.Telephone,
+            LieuHabitation = user.LieuHabitation,
             PhotoProfil = user.PhotoProfil,
             Type = user.Type,
             DateInscription = user.CreatedAt
@@ -40,6 +41,7 @@ public class UserService : IUserService
         if (dto.Nom != null) user.Nom = dto.Nom;
         if (dto.Prenom != null) user.Prenom = dto.Prenom;
         if (dto.Telephone != null) user.Telephone = dto.Telephone;
+        if (dto.LieuHabitation != null) user.LieuHabitation = dto.LieuHabitation;
         if (dto.PhotoProfil != null) user.PhotoProfil = dto.PhotoProfil;
 
         await _context.SaveChangesAsync();
@@ -51,6 +53,7 @@ public class UserService : IUserService
             Prenom = user.Prenom,
             Email = user.Email,
             Telephone = user.Telephone,
+            LieuHabitation = user.LieuHabitation,
             PhotoProfil = user.PhotoProfil,
             Type = user.Type,
             DateInscription = user.CreatedAt

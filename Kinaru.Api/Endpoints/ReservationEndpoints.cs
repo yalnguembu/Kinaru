@@ -46,30 +46,6 @@ public static class ReservationEndpoints
             }
         })
         .RequireAuthorization()
-        .WithName("GetMyReservations")
-        .WithOpenApi();
-
-        group.MapGet("/property/{propertyId:guid}", async (
-            Guid propertyId,
-            IReservationService service,
-            HttpContext context) =>
-        {
-            try
-            {
-                var userId = GetUserIdFromClaims(context);
-                var reservations = await service.GetPropertyReservationsAsync(propertyId, userId);
-                return Results.Ok(reservations);
-            }
-            catch (UnauthorizedAccessException)
-            {
-                return Results.Forbid();
-            }
-            catch (Exception ex)
-            {
-                return Results.BadRequest(new { message = ex.Message });
-            }
-        })
-        .RequireAuthorization()
         .WithName("GetPropertyReservations")
         .WithOpenApi();
 

@@ -9,5 +9,6 @@ public class RegisterRequestDto
     public string Email { get; set; } = string.Empty;
     public string Password { get; set; } = string.Empty;
     public string Telephone { get; set; } = string.Empty;
+    public string LieuHabitation { get; set; } = string.Empty;
     public UserType Type { get; set; }
 }

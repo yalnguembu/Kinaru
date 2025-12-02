@@ -77,6 +77,18 @@ public class ReservationService : IReservationService
             .ToListAsync();
     }
 
+    public async Task<List<ReservationDto>> GetAgentReservationsAsync(Guid agentId)
+    {
+        return await _context.Reservations
+            .Include(r => r.Property)
+            .ThenInclude(p => p.Images)
+            .Include(r => r.User)
+            .Where(r => r.Property.VendeurId == agentId)
+            .OrderByDescending(r => r.DateReservation)
+            .Select(r => MapToDto(r))
+            .ToListAsync();
+    }
+
     public async Task<ReservationDto> UpdateReservationStatusAsync(Guid reservationId, UpdateReservationStatusDto dto, Guid userId)
     {
         var reservation = await _context.Reservations

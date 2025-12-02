@@ -9,7 +9,7 @@ public class Property : BaseEntity
     public decimal Prix { get; set; }
     public string Devise { get; set; } = "XAF";
     public PropertyType Type { get; set; }
-    public PropertyStatus Statut { get; set; } = PropertyStatus.AVendre;
+    public PropertyStatus Statut { get; set; } = PropertyStatus.Disponible;
     
     public string Adresse { get; set; } = string.Empty;
     public string Ville { get; set; } = string.Empty;

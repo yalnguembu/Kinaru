@@ -9,6 +9,7 @@ public class User : BaseEntity
     public string Email { get; set; } = string.Empty;
     public string PasswordHash { get; set; } = string.Empty;
     public string Telephone { get; set; } = string.Empty;
+    public string LieuHabitation { get; set; } = string.Empty;
     public string? PhotoProfil { get; set; }
     public UserType Type { get; set; }
     public bool IsEmailVerified { get; set; }

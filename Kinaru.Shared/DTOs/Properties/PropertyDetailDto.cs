@@ -6,6 +6,7 @@ public class PropertyDetailDto : PropertyListDto
 {
     public string Description { get; set; } = string.Empty;
     public string Adresse { get; set; } = string.Empty;
+    public string? CodePostal { get; set; }
     public int NombreSallesBain { get; set; }
     public int NombrePieces { get; set; }
     public int NombreVues { get; set; }

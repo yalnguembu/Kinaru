@@ -34,6 +34,7 @@ public class AuthService : IAuthService
             Prenom = request.Prenom,
             Email = request.Email,
             Telephone = request.Telephone,
+            LieuHabitation = request.LieuHabitation,
             Type = request.Type,
             PasswordHash = BCrypt.Net.BCrypt.HashPassword(request.Password),
             CreatedAt = DateTime.UtcNow,

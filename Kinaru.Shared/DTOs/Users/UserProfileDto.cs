@@ -9,6 +9,7 @@ public class UserProfileDto
     public string Prenom { get; set; } = string.Empty;
     public string Email { get; set; } = string.Empty;
     public string Telephone { get; set; } = string.Empty;
+    public string LieuHabitation { get; set; } = string.Empty;
     public string? PhotoProfil { get; set; }
     public UserType Type { get; set; }
     public DateTime DateInscription { get; set; }
